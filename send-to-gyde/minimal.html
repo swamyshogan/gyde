@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send-to-GYDE test</title>
+  </head>
+  <body>
+    <h1>Minimal Send-to-GYDE test</h1>
+    <form id="form" enctype="multipart/form-data" method="POST" action="http://localhost:3030/send-to-gyde" target="_blank">
+        <input type="submit" value="Send to GYDE">
+    </form>
+    <script type="application/javascript">
+
+      const columnarData = {
+          seqid: ['seq1'],
+          concept_name: ['Just testing'],
+          sequence: ['HELLOWORLD']
+      }
+      const gydeSession = {
+          name: 'S2G test',
+          alignmentKey: 'seqs',
+          isAntibody: false,
+          columnarData,
+          seqColumns: ['sequence'],
+          seqColumnNames: ['Test sequences']
+      };
+
+      document.querySelector('#form').addEventListener('formdata', (ev) => {
+          const fd = ev.formData;
+          fd.append(
+            'session_data',
+            new Blob([JSON.stringify(gydeSession)],
+              {'type': 'application/json'})
+          );
+      });
+
+    </script>
+  </body>
+</html>

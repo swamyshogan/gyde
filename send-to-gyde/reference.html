@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send-to-GYDE test</title>
+  </head>
+  <body>
+    <h1>Send-to-GYDE test with reference sequences</h1>
+    <form id="form" enctype="multipart/form-data" method="POST" action="http://localhost:3030/send-to-gyde" target="_blank">
+        <input type="submit" value="Send to GYDE">
+    </form>
+    <script type="application/javascript">
+
+      const indices = [];
+      for (let i = 0; i < 10; ++i) {
+        indices.push(i);
+      }
+      const baseSeq = 'HELLOWORLD';
+
+      const columnarData = {
+          seqid: indices.map((i) => `seq${i}`),
+          concept_name: indices.map((i) => `Testing ${i}`),
+          sequence: indices.map((i) => {
+            const ss = baseSeq.split('');
+            ss[i] = 'X';
+            return ss.join('');
+          }),
+          baseSequence: indices.map((i) => baseSeq),
+          x: indices.map((i) => Math.sin(i*2*Math.PI/10)),
+          y: indices.map((i) => Math.cos(i*2*Math.PI/10))
+      };
+      const gydeSession = {
+          name: 'S2G test',
+          alignmentKey: 'seqs',
+          isAntibody: false,
+          columnarData,
+          seqColumns: [{column: 'sequence'}],
+          seqColumnNames: ['Test sequences'],
+          seqRefColumns: [{column: 'baseSequence'}],
+          plots: [
+            {
+              axis1: {series: 'x'},
+              axis2: {series: 'y'}
+            }
+          ],
+          columnDisplayNames: {
+              'x': 'X-value',
+              'y': 'Y-value'
+          }
+      };
+
+      document.querySelector('#form').addEventListener('formdata', (ev) => {
+          const fd = ev.formData;
+          fd.append(
+            'session_data',
+            new Blob([JSON.stringify(gydeSession)],
+              {'type': 'application/json'})
+          );
+      });
+
+    </script>
+  </body>
+</html>

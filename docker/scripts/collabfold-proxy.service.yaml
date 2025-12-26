@@ -1,0 +1,39 @@
+---
+slivka-version: "0.8.5"
+name: Collabfold MSA server proxy
+description: ""
+author: ""
+version: "0.0.1"
+license: ""
+
+parameters:
+  input-fasta:
+    type: file
+    name: Input fasta
+    required: true
+
+command:
+  - /opt/venv/bin/python
+  - /usr/local/gyde-slivka/bin/msa_from_collab_server.py
+
+args:
+  input-fasta:
+    arg: $(value)
+    symlink: input.fasta
+
+outputs:
+  log:
+    path: stdout
+    media-type: text/plain
+  error-log:
+    path: stderr
+    media-type: text/plain
+  msa:
+    path: 'aligned.a3m'
+
+execution:
+  runners:
+    default:
+      type: ShellRunner
+
+...

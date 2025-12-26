@@ -1,0 +1,54 @@
+body {
+  margin: 0em;
+  background-color: #ffffff;
+  color: black;
+  font-family: sans-serif; 
+  font-size: 15px;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: #153452;
+  font-size: 32px;
+  padding-left: 10%;
+  padding-right: 10%;
+  color:#ffffff;
+  flex-grow: 1;
+  width: 80%;
+
+  &.collapsed {
+    height: auto;
+    padding-bottom: 2rem;
+    font-size: 24px;
+  }
+}
+
+.logoWithVersion {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 0.5rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  gap: 1rem;
+  user-select: none;
+  cursor: pointer;
+
+  transition: margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
+
+  &.collapsed {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+}
+
+button {
+  text-transform: none !important;
+}
+
+.msp-layout-expanded {
+  z-index: 1000;
+}

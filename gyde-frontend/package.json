@@ -1,0 +1,97 @@
+{
+  "name": "@csb/gyde-frontend",
+  "version": "0.10.0",
+  "main": "lib/lib.js",
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "5.0.0-alpha.129",
+    "@mui/material": "^5.12.3",
+    "apache-arrow": "^17.0.0",
+    "assert": "^2.1.0",
+    "base64-js": "^1.5.1",
+    "bootstrap": "^5.2.3",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
+    "color-name": "^1.1.4",
+    "d3": "^7.4.2",
+    "d3-axis-for-react": "^1.1.1",
+    "fflate": "^0.8.0",
+    "file-saver": "^2.0.5",
+    "luxon": "^3.3.0",
+    "md5": "^2.3.0",
+    "memoize-one": "^6.0.0",
+    "molstar": "^3.42.0",
+    "msa": "^1.0.3",
+    "msa-colorschemes": "^1.0.10",
+    "node-sass": "^7.0.1",
+    "npyjs": "^0.6.0",
+    "openchemlib": "^8.17.0",
+    "pako": "^2.0.4",
+    "parquet-wasm": "^0.6.1",
+    "process": "^0.11.10",
+    "raw.macro": "^0.4.2",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
+    "react-dom": "^18.2.0",
+    "react-double-scrollbar": "github:umchee/react-double-scrollbar",
+    "react-resize-detector": "^9.1.0",
+    "react-router": "^7.8.2",
+    "react-scripts": "^5.0.0",
+    "react-shadow": "^20.6.0",
+    "sdf-parser": "^6.0.1",
+    "serve": "^13.0.2",
+    "setimmediate": "^1.0.5",
+    "sha256-uint8array": "^0.10.3",
+    "use-device-pixel-ratio": "^1.1.0",
+    "util": "^0.12.5",
+    "web-vitals": "^2.1.4",
+    "webpack": "5.82.1",
+    "wide-align": "^1.1.5",
+    "xlsx": "^0.18.5",
+    "xlsx-populate": "^1.21.0",
+    "yauzl": "^3.1.1"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "lib-build": "babel src --out-dir lib --copy-files --ignore src/setupProxy.js --ignore src/index.js",
+    "prepare": "npm run lib-build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "files": [
+    "lib/**",
+    "public/GYDE_logo.png",
+    "src/setupProxy.js"
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.0",
+    "@craco/craco": "^7.1.0",
+    "babel-plugin-preval": "^5.1.0",
+    "crypto-browserify": "^3.12.0",
+    "http-proxy-middleware": "^2.0.4",
+    "multiparty": "^4.2.3",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0"
+  }
+}

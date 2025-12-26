@@ -1,0 +1,148 @@
+name: gyde
+
+services:
+  gyde-server:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: "gyde:latest"
+    depends_on:
+      mongodb-rs0-setup:
+        condition: service_completed_successfully
+      mongodb-rs0:
+        condition: service_healthy
+      slivka-server:
+        condition: service_healthy
+    environment:
+      GYDE_MONGO_CONNECTION: 'mongodb://mongodb-rs0:27017/?replicaSet=rs0'
+      GYDE_SLIVKA_URL: "http://slivka-server:4040"
+      GYDE_SLIVKA2_URL: "http://slivka-server:4040"
+    ports:
+      - "3030:3030"
+
+  slivka-server:
+    image: slivka:latest
+    build:
+      dockerfile: slivka.Dockerfile
+      context: docker/
+      target: slivka
+    depends_on:
+      mongodb-rs0-setup:
+        condition: service_completed_successfully
+      mongodb-rs0:
+        condition: service_healthy
+      slivka-scheduler:
+        condition: service_started
+    healthcheck:
+      test: [CMD-SHELL, "wget --no-verbose --tries=1 --spider http://127.0.0.1:4040/api/version || exit 1"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 20s
+    environment:
+      # Debug is required for file hosting
+      - FLASK_DEBUG=1
+      - SLIVKA_SERVER_HOST=0.0.0.0:4040
+      - SLIVKA_MONGODB_URI=mongodb://mongodb-rs0:27017/?replicaSet=rs0
+      - SLIVKA_MONGODB_DATABASE=slivka
+    volumes:
+      - ${SLIVKA_DATA_DIR}:/data/slivka
+    ports:
+      - "4040:4040"
+    working_dir: /data/slivka
+    command: ["slivka", "start", "server", "-t", "gunicorn"]
+
+  slivka-scheduler:
+    image: slivka:latest
+    build:
+      dockerfile: slivka.Dockerfile
+      context: docker/
+      target: slivka
+    depends_on:
+      docker:
+        condition: service_started
+      mongodb-rs0-setup:
+        condition: service_completed_successfully
+      mongodb-rs0:
+        condition: service_healthy
+    environment:
+      - SLIVKA_MONGODB_URI=mongodb://mongodb-rs0:27017/?replicaSet=rs0
+      - SLIVKA_MONGODB_DATABASE=slivka
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_TLS_VERIFY=1
+      - DOCKER_CERT_PATH=/certs/client
+    volumes:
+      - dind-certs:/certs/client:ro
+      - ${SLIVKA_DATA_DIR}:/data/slivka
+    working_dir: /data/slivka
+    command: ["slivka", "start", "scheduler"]
+
+  slivka-bio-installer:
+    image: slivka-bio-installer:latest
+    build:
+      dockerfile: slivka.Dockerfile
+      context: docker/
+      target: slivka-bio-installer
+    stdin_open: true
+    tty: true
+    depends_on:
+      - docker
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_TLS_VERIFY=1
+      - DOCKER_CERT_PATH=/certs/client
+    volumes:
+      - dind-certs:/certs/client:ro
+      - ${SLIVKA_DATA_DIR}:/data/slivka
+    command: ["/data/slivka"]
+    profiles:
+      - setup
+
+  mongodb-rs0:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--oplogSize", "128"]
+    healthcheck:
+      test: "[ $(mongosh --eval 'db.runCommand(\"ping\").ok' --quiet) -eq 1 ]"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    volumes:
+      - type: volume
+        source: mongo-data
+        target: /data/db
+
+  mongodb-rs0-setup:
+    image: mongo:7.0
+    restart: on-failure
+    depends_on:
+      mongodb-rs0:
+        condition: service_healthy
+    entrypoint: [
+      "mongosh",
+      "--host", "mongodb-rs0",
+      "--file", "/scripts/replSet-setup.js"
+    ]
+    volumes:
+      - type: bind
+        source: ./docker/scripts/replSet-setup.js
+        target: /scripts/replSet-setup.js
+
+  docker:
+    image: docker:28.2.2-dind-alpine3.21
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - dind-certs:/certs/client
+      - dind-data:/var/lib/docker
+      - ${SLIVKA_DATA_DIR}:/data/slivka
+
+volumes:
+  mongo-data:
+  dind-certs:
+  dind-data:
+
+networks:
+  default:
+    driver: bridge
