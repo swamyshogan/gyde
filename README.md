@@ -14,7 +14,7 @@ GYDE addresses the challenge of adopting rapidly evolving computational tools in
 - **Collaborative workflows**: Share analysis sessions with colleagues via intuitive hyperlinks
 - **Extensible architecture**: Easy integration of new computational tools via the Slivka compute API
 
-## ✨ Key Features {#key-features}
+## Key Features
 
 ### Core Capabilities
 
@@ -75,7 +75,7 @@ Examples of GYDE integrations with state-of-the-art tools via the Slivka compute
 - [Acknowledgments](#acknowledgments)
 - [Contact](#contact)
 
-## 📦 Installation {#installation}
+## Installation
 
 ### Prerequisites
 
@@ -107,7 +107,7 @@ npm install
 
 4. **Set up MongoDB** (ensure MongoDB is running locally or configure connection string)
 
-## 🏃 Quick Start {#quick-start}
+## Quick Start
 
 ### Development Mode
 
@@ -144,7 +144,7 @@ node index.js
 
 The application will be available at `http://localhost:3030`
 
-## 🏗️ Architecture {#architecture}
+## Architecture
 
 GYDE is built using a modular architecture with three main components:
 
@@ -182,7 +182,7 @@ MongoDB (Data Storage) + Slivka (Compute API)
 External Tools (AlphaFold, ProteinMPNN, etc.)
 ```
 
-## ⚙️ Configuration {#configuration}
+## Configuration
 
 ### Environment Variables
 
@@ -217,7 +217,7 @@ External Tools (AlphaFold, ProteinMPNN, etc.)
 |----------|-------------|
 | `SLIVKA_URL` | Slivka API server URL (for development) |
 
-## 📖 Usage Examples {#usage-examples}
+## Usage Examples
 
 ### Data Input Methods
 
@@ -261,7 +261,7 @@ curl -X POST http://localhost:3030/send-to-gyde \
   -F "session_data=@your-data.json"
 ```
 
-## 🎓 Use Cases {#use-cases}
+## Use Cases
 
 GYDE has been successfully applied in various protein science applications. The following case studies demonstrate the platform's capabilities:
 
@@ -307,7 +307,7 @@ GYDE replicated the computational components of a published study that achieved 
 
 GYDE was used to design LRRC15-binding miniproteins for AAV capsid retargeting. The platform integrated BindCraft and RFDiffusion designs, merged experimental binding and VLP yield data, and enabled rapid analysis of sequence-structure-function relationships to identify promising candidates.
 
-## 🐳 Docker Deployment {#docker-deployment}
+## Docker Deployment
 
 ### Software Requirements
 
@@ -340,7 +340,7 @@ docker compose up gyde-server
 
 The application will be available at `http://localhost:3030`
 
-## 🛠️ Development {#development}
+## Development
 
 ### Project Structure
 
@@ -373,7 +373,7 @@ cd gyde-frontend
 npm test
 ```
 
-## 🤝 Contributing {#contributing}
+## Contributing
 
 We welcome contributions!
 
@@ -383,18 +383,18 @@ We welcome contributions!
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 Citation {#citation}
+## Citation
 
 If you use GYDE in your research, please cite this repository.
 
 
 *Note: Update with actual citation information once the manuscript is published*
 
-## 📚 Documentation {#documentation}
+## Documentation
 
 - [Send-to-GYDE Protocol](send-to-gyde/README.md)
 
-## 🐛 Troubleshooting {#troubleshooting}
+## Troubleshooting
 
 ### Common Issues
 
@@ -417,27 +417,29 @@ If you use GYDE in your research, please cite this repository.
 - Check Slivka service configuration
 - Review job logs in Slivka interface
 
-## 🔮 Future Directions {#future-directions}
+## Future Directions
 
 - Integration of Large Language Models (LLMs) for prompt-based access to GYDE capabilities
 - Support for conformational dynamics and molecular dynamics trajectories
 - Enhanced visualization capabilities for complex datasets
 - Expanded integration with external data sources and LIMS systems
 
-## 📝 License {#license}
+## License
 
 Genentech Non-Commercial Software License
 
 See [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments {#acknowledgments}
+## Acknowledgments
 
 GYDE was developed at Genentech Research and Early Development by Thomas Down and Kiran Mukhyala. 
 
-## 📧 Contact {#contact}
+## Contact
 
+- **Maintainer**: Kiran Mukhyala
+- **Email**: [mukhyala@gmail.com]
 - **Issues**: [GitHub Issues](https://github.com/proteinverse/gyde/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/gyde/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/proteinverse/gyde/discussions)
 
 ---
 
