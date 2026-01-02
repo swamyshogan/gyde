@@ -45,7 +45,7 @@ Examples of GYDE integrations with state-of-the-art tools via the Slivka compute
 - MAFFT (multiple sequence alignment)
 - Absolve (antibody numbering)
 - RaSP, Rosetta ΔΔG (stability prediction)
-- Therapeutic Antibody Profiler (TAP), MolDesk (Ab developability)
+- Therapeutic Antibody Profiler (TAP), MolDesk (Ab developability)   
 
 ### Data Management
 
