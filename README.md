@@ -260,14 +260,14 @@ GYDE has been successfully applied in various protein science applications. The 
 
 ### Structure Prediction: Protein-Protein Interaction Networks
 
-![Interactome Dataset](docs/figures/figure3.png)
+![Interactome Dataset](docs/figures/figure3.jpg)
 *Figure 3: GYDE navigation of the interactome dataset. (A) Screen shot of table and structure viewer with overlay of one AlphaFold2 prediction versus a known structure for the selected row. (B) Three GYDE plots by AlphaFold2-multimer prediction maximum confidence versus confidence standard deviation for 1381 potential protein complexes.*
 
 GYDE was used to analyze 1381 potential protein-protein interactions from experimental proteomics data. The platform enabled rapid visualization and filtering of AlphaFold2-multimer predictions, allowing researchers to identify high-confidence interactions and prioritize targets for further experimental validation.
 
 ### Method Benchmarking: Co-folding Methods Comparison
 
-![Runs-N-Poses Dataset](docs/figures/figure4.jpg)
+![Runs-N-Poses Dataset](docs/figures/figure4.png)
 *Figure 4: Exploring the results of the Runs_N_Poses dataset re-generated only on Boltz and Chai. (A) GYDE dataset to explore individual predictions showing superposition of predicted vs ground truth co-folding methods. (B) Prediction accuracy vs. training set similarity to validate the Runs_N_Poses results.*
 
 GYDE facilitated the comparison of Boltz-1 and Chai-1r co-folding methods by enabling interactive exploration of prediction quality, filtering by metrics, and visual inspection of structural discrepancies through the integrated Mol* viewer.
