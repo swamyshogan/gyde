@@ -5,7 +5,7 @@
 ![GYDE Interface](docs/figures/figure1.png)
 *Figure 1: GYDE layout showing the integrated MSA, Structure Viewer and Plotting panel. The selected sequence in the MSA viewer is used for structure visualization and highlighted in the plotting panel.*
 
-## Overview {#overview} 🎯 
+## Overview 
 
 GYDE addresses the challenge of adopting rapidly evolving computational tools in protein science and drug discovery. The platform provides:
 
