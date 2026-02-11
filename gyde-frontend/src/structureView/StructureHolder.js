@@ -15,7 +15,7 @@ import {
     atomicMappingsForModel, createMolStarPlugin, Plugin, applyDiffsTheme
 } from './molstar';
 
-import {SlivkaServiceContext, configMapToFormData} from '../czekolada/lib';
+import {SlivkaServiceContext, configMapToFormData} from '@csb/czekolada';
 import {csvFormat} from 'd3-dsv';
 
 import {getProteinOneLetterCode} from 'molstar/lib/mol-model/sequence/constants';
@@ -611,7 +611,7 @@ class StructureHolder extends React.Component {
 
             const highlightChains = [];
             for (const structureInfo of this.structureInfos) {
-                const {sequences, explicitChains, explicitMappings, structureLabel} = structureInfo;
+                const {sequences, explicitChains, explicitMappings, structureLabel, dataIndices} = structureInfo;
                 if (!explicitMappings) continue;
                 const {chains, defaultStyles} = this.findChainsAndStyles(explicitChains, sequences);
                 
@@ -628,7 +628,9 @@ class StructureHolder extends React.Component {
                                 ? explicitMappings[i] 
                                 : undefined,
                             defaultStyle: defaultStyles[i],
-                            selectedColumns: (this.props.selectedColumns || [])[i] || new Set()
+                            selectedColumns: (this.props.selectedColumns || [])[i] || new Set(),
+                            dataIndices: dataIndices,  // Pass the row indices that own this structure
+                            alignmentColumnIndex: i     // Track which sequence column this is
                         });
                     }
                 }
@@ -920,6 +922,7 @@ class StructureHolder extends React.Component {
 
     async setStructureHighlightsByLink(viewer, chainRecords) {
         const mappings = getAtomicMappings(viewer);
+        const {alignments, selection} = this.props;
 
         const highlightPosn = {};
         const failedPosns = [];
@@ -928,8 +931,20 @@ class StructureHolder extends React.Component {
             highlightPosn[structureLabel] = [];
         }
 
-        for (const {structureLabel, aligned: seqs, chains, mapping: explicitMapping, selectedColumns} of chainRecords) {
-            const seq = seqs[0];
+        for (const {structureLabel, aligned: seqs, chains, mapping: explicitMapping, selectedColumns, dataIndices, alignmentColumnIndex} of chainRecords) {
+            // Fix: Use the structure owner's sequence instead of just seqs[0]
+            // Get the sequence from the alignment for the row that owns this structure
+            let seq;
+            if (dataIndices && alignments && alignmentColumnIndex !== undefined && selection) {
+                const ownerRowIdx = dataIndices[0];
+                if (!selection.has(ownerRowIdx)) continue;  // Skip if owner row not selected
+                const columnAlignments = alignments[alignmentColumnIndex];
+                seq = columnAlignments ? columnAlignments[ownerRowIdx] : seqs[0];
+            } else {
+                // Fallback to original behavior
+                seq = seqs[0];
+            }
+            
             if (!seq) continue;
 
             for (const chain of chains.split(',')) {
