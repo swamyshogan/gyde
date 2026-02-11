@@ -1,6 +1,6 @@
 {
   "name": "@csb/gyde-frontend",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "lib/lib.js",
   "dependencies": {
     "@emotion/react": "^11.11.0",
